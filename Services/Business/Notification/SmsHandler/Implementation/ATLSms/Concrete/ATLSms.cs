@@ -7,20 +7,30 @@ using Core.Tools.SmsHandler.Abstract;
 using System.Xml.Serialization;
 using System.IO;
 using Core.Constants.Notificaiton.SmsHandler;
+using System.Linq;
 
 namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
 {
     public partial class ATLSms : ISMSService, IATLSmsService
     {
-        public async Task<SmsOperationResult<bool, string, string>> SendSMS(SMSMessage message)
+        #region SimpleRequest
+
+        public async Task<SmsOperationResult<bool, string, string>> SendSMSAsync(string phoneNumber, string smsText)
+        {
+            return await SendSMSAsync(new SMSMessage(phoneNumber, smsText));
+        }
+
+        public async Task<SmsOperationResult<bool, string, string>> SendSMSAsync(SMSMessage message)
         {
             return await SendIndividualSMSAsync(message);
         }
 
-        //Item1 - operation result, Item2 - opeartion request xml, 
-        public async Task<SmsOperationResult<bool, string, string>> SendIndividualSMSAsync(SMSMessage message)
+        #endregion
+
+        #region Individual SMS
+        public async Task<SmsOperationResult<bool, string, string>> SendIndividualSMSAsync(SMSMessage message, DateTime? schedule = null)
         {
-            string dataXML = GenerateOperationSubmitIndividualXML(message.Text, message.PhoneNumber);
+            string dataXML = GenerateOperationSubmitIndividualXML(message.Text, message.PhoneNumber, schedule);
 
             HttpResponseMessage httpResponse = await SendRequestXMLAsync(HttpMethod.Post, _smsConfiguration.API_URL, dataXML, Encoding.UTF8);
             var content = await httpResponse.Content.ReadAsStringAsync();
@@ -32,9 +42,23 @@ namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
             return new SmsOperationResult<bool, string, string>(operationResult, dataXML, content);
         }
 
-        public async Task<SmsOperationResult<bool, string, string>> SendBulkSMSAsync(SMSMessageBulk smsMessageBulk)
+        public async Task<SmsOperationResult<bool, string, string>> SendIndividualSMSAsync(string phoneNumber, string smsText)
         {
-            string dataXML = GenerateOperationSubmitBulkXML(smsMessageBulk.Text, smsMessageBulk.PhoneNumbers);
+            return await SendIndividualSMSAsync(new SMSMessage(phoneNumber, smsText));
+        }
+
+        public async Task<SmsOperationResult<bool, string, string>> SendIndividualSMSAsync(string phoneNumber, string smsText, DateTime schedule)
+        {
+            return await SendIndividualSMSAsync(new SMSMessage(phoneNumber, smsText), schedule);
+        }
+
+        #endregion
+
+        #region Bulk SMS
+
+        public async Task<SmsOperationResult<bool, string, string>> SendBulkSMSAsync(SMSMessageBulk smsMessageBulk, DateTime? schedule = null)
+        {
+            string dataXML = GenerateOperationSubmitBulkXML(smsMessageBulk.Text, smsMessageBulk.PhoneNumbers, schedule);
 
             HttpResponseMessage httpResponse = await SendRequestXMLAsync(HttpMethod.Post, _smsConfiguration.API_URL, dataXML, Encoding.UTF8);
             var content = await httpResponse.Content.ReadAsStringAsync();
@@ -44,6 +68,27 @@ namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
 
             return new SmsOperationResult<bool, string, string>(operationResult, dataXML, content);
         }
+
+        public async Task<SmsOperationResult<bool, string, string>> SendBulkSMSAsync(string smsText, params string[] phoneNumbers)
+        {
+            return await SendBulkSMSAsync(new SMSMessageBulk {
+                Text = smsText,
+                PhoneNumbers = phoneNumbers.ToList()
+            });
+        }
+
+        public async Task<SmsOperationResult<bool, string, string>> SendBulkSMSAsync(string smsText, List<string> phoneNumbers)
+        {
+            return await SendBulkSMSAsync(new SMSMessageBulk
+            {
+                Text = smsText,
+                PhoneNumbers = phoneNumbers
+            });
+        }
+
+        #endregion
+
+        #region Total units info
 
         public async Task<SmsOperationResult<int, string, string>> GetTotalUnitsAsync()
         {
@@ -65,6 +110,10 @@ namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
                 return new SmsOperationResult<int, string, string>(-1, dataXML, content);
             }
         }
+
+        #endregion
+
+        #region Detailed report info
 
         public async Task<SmsOperationResult<string, string, string>> GetDetailedReport(string taskId)
         {
@@ -89,5 +138,8 @@ namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
 
             return new SmsOperationResult<string, string, string>(_atlSmsError.GetErrorMessageByCode(resultObj.Head.ResponseCode), dataXML, content);
         }
+
+
+        #endregion
     }
 }

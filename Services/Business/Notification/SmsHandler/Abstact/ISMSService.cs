@@ -8,6 +8,7 @@ namespace Core.Tools.SmsHandler.Abstract
 {
     public interface ISMSService
     {
-        Task<SmsOperationResult<bool, string, string>> SendSMS(SMSMessage message);
+        Task<SmsOperationResult<bool, string, string>> SendSMSAsync(string phoneNumber, string smsText);
+        Task<SmsOperationResult<bool, string, string>> SendSMSAsync(SMSMessage message);
     }
 }
