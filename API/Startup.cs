@@ -1,3 +1,5 @@
+using Core.Tools.SmsHandler.Abstract;
+using Core.Tools.SmsHandler.Implementation.ATLSms.Concreate;
 using DataAccess.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,12 @@ namespace API
             //Context
             services.AddDbContext<ATLSmsContext>(option => 
             option.UseSqlServer(Configuration.GetConnectionString("LocalPC"), x => x.MigrationsAssembly("DataAccess")));
+
+            // SMS Service
+            var atlsmsConfig = Configuration.GetSection("ATLSms").Get<ATLSmsConfiguration>();
+            services.AddSingleton(atlsmsConfig);
+            services.AddTransient<ISMSService, ATLSms>();
+            services.AddTransient<IATLSmsService, ATLSms>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
