@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Repositories\Abstractions\" />
+    <Folder Include="NewFolder\" />
     <Folder Include="Services\Business\Data\Abstractions\" />
     <Folder Include="Services\Notification\" />
   </ItemGroup>

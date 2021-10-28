@@ -29,6 +29,8 @@ namespace API
 
             services.AddControllers();
 
+            services.AddHttpClient();
+
             //Context
             services.AddDbContext<ATLSmsContext>(option => 
             option.UseSqlServer(Configuration.GetConnectionString("LocalPC"), x => x.MigrationsAssembly("DataAccess")));
