@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Core.Tools.SmsHandler.Abstract;
 using System.Xml.Serialization;
 using System.IO;
-using Core.Tools.SmsHandler.Implementation.ATLSms.Abstract;
 using Core.Services.RandomKeyGenerators;
+using Services.Notification.SmsHandler.Abstract;
+using Services.Notification.SmsHandler.Implementation.ATLSms.Abstract;
 
-namespace Core.Tools.SmsHandler.Implementation.ATLSms.Concreate
+namespace Services.Notification.SmsHandler.Implementation.ATLSms.Concreate
 {
     public partial class ATLSms : ISMSService
     {

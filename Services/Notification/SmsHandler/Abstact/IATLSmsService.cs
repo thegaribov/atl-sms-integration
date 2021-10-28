@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Tools.SmsHandler.Abstract
+namespace Services.Notification.SmsHandler.Abstract
 {
     public interface IATLSmsService
     {

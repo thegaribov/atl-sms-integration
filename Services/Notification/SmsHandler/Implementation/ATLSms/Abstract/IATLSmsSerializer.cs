@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Tools.SmsHandler.Implementation.ATLSms.Abstract
+namespace Services.Notification.SmsHandler.Implementation.ATLSms.Abstract
 {
     public interface IATLSmsSerializer
     {

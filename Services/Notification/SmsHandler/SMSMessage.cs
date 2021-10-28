@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Tools.SmsHandler
+namespace Services.Notification.SmsHandler
 {
     public class SMSMessageBulk
     {
