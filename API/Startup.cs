@@ -1,5 +1,3 @@
-using Core.Tools.SmsHandler.Abstract;
-using Core.Tools.SmsHandler.Implementation.ATLSms.Concreate;
 using DataAccess.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services.Notification.SmsHandler.Abstract;
+using Services.Notification.SmsHandler.Implementation.ATLSms.Concreate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

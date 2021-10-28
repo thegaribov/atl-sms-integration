@@ -1,7 +1,7 @@
 ﻿using Core.Constants.Notificaiton.SmsHandler;
-using Core.Tools.SmsHandler;
-using Core.Tools.SmsHandler.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Services.Notification.SmsHandler;
+using Services.Notification.SmsHandler.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
