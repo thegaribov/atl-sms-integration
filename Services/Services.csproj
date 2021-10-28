@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Business\Data\Implementations\" />
+    <Folder Include="Business\Notification\SmsHandler\Implementation\" />
   </ItemGroup>
 
 </Project>
