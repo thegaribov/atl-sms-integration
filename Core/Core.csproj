@@ -4,4 +4,14 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DataAccess\Repositories\Abstractions\" />
+    <Folder Include="Services\Business\Data\Abstractions\" />
+    <Folder Include="Services\Notification\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
+  </ItemGroup>
+
 </Project>
